@@ -1,0 +1,1919 @@
+{
+  "compatibilityLevel": 1567,
+  "model": {
+    "annotations": [
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"JSON Customer Example\",\"Kishore Cycles Sales\",\"Kishore Cycles Products\",\"Kishore Cycles Calendar\",\"Pivot Demo\",\"Kishore Cycles Age Group\",\"Kishore Cycles Gender\",\"Kishore Cycles Product Categories\",\"Kishore Cycles Product Subcategories\",\"Kishore Cycles Regions\",\"_Measure\",\"RangeStart\",\"RangeEnd\"]"
+      },
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "1"
+      },
+      {
+        "name": "PBIDesktopVersion",
+        "value": "2.121.942.0 (23.09)"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "en-GB",
+    "cultures": [
+      {
+        "name": "en-GB",
+        "linguisticMetadata": {
+          "content": {
+            "DynamicImprovement": "HighConfidence",
+            "Language": "en-US",
+            "Version": "1.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "JSON Customer Example",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Source = Json.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\sample4.json\")),",
+          "    #\"Converted to Table\" = Table.FromRecords({Source}),",
+          "    #\"Expanded people\" = Table.ExpandListColumn(#\"Converted to Table\", \"people\"),",
+          "    #\"Expanded people1\" = Table.ExpandRecordColumn(#\"Expanded people\", \"people\", {\"firstName\", \"lastName\", \"gender\", \"age\", \"number\"}, {\"people.firstName\", \"people.lastName\", \"people.gender\", \"people.age\", \"people.number\"}),",
+          "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Expanded people1\",{{\"people.firstName\", type text}, {\"people.lastName\", type text}, {\"people.gender\", type text}, {\"people.age\", Int64.Type}, {\"people.number\", Int64.Type}}),",
+          "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"people.firstName\", \"First Name\"}, {\"people.lastName\", \"Last Name\"}, {\"people.gender\", \"Gender\"}, {\"people.age\", \"Age\"}, {\"people.number\", \"Number\"}})",
+          "in",
+          "    #\"Renamed Columns\""
+        ],
+        "kind": "m",
+        "lineageTag": "38009956-3efc-4589-b654-b4e869a70cba",
+        "queryGroup": "Demo Queries"
+      },
+      {
+        "name": "Pivot Demo",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Source = Csv.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\Pivot Demo.csv\"),[Delimiter=\",\", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+          "    #\"Changed Type\" = Table.TransformColumnTypes(Source,{{\"Column1\", type text}, {\"Column2\", Int64.Type}, {\"Column3\", Int64.Type}, {\"Column4\", Int64.Type}, {\"Column5\", Int64.Type}, {\"Column6\", Int64.Type}, {\"Column7\", Int64.Type}}),",
+          "    #\"Promoted Headers\" = Table.PromoteHeaders(#\"Changed Type\", [PromoteAllScalars=true]),",
+          "    #\"Unpivoted Columns\" = Table.UnpivotOtherColumns(#\"Promoted Headers\", {\"\"}, \"Attribute\", \"Value\"),",
+          "    #\"Pivoted Column\" = Table.Pivot(#\"Unpivoted Columns\", List.Distinct(#\"Unpivoted Columns\"[#\"\"]), \"\", \"Value\", List.Sum),",
+          "    #\"Renamed Columns\" = Table.RenameColumns(#\"Pivoted Column\",{{\"Attribute\", \"Year\"}}),",
+          "    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Renamed Columns\",{{\"Year\", Int64.Type}})",
+          "in",
+          "    #\"Changed Type1\""
+        ],
+        "kind": "m",
+        "lineageTag": "9963b09a-dc87-45ca-a4bc-81a6553f35aa",
+        "queryGroup": "Demo Queries"
+      },
+      {
+        "name": "RangeStart",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "DateTime"
+          }
+        ],
+        "expression": "#datetime(2015, 1, 1, 0, 0, 0) meta [IsParameterQuery=true, Type=\"DateTime\", IsParameterQueryRequired=true]",
+        "kind": "m",
+        "lineageTag": "195cec2e-2047-43f4-9e26-46ffab678796"
+      },
+      {
+        "name": "RangeEnd",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "DateTime"
+          }
+        ],
+        "expression": "#datetime(2020, 7, 31, 0, 0, 0) meta [IsParameterQuery=true, Type=\"DateTime\", IsParameterQueryRequired=true]",
+        "kind": "m",
+        "lineageTag": "e5cccb72-f46d-4a02-8f40-0724759db235"
+      }
+    ],
+    "queryGroups": [
+      {
+        "annotations": [
+          {
+            "name": "PBI_QueryGroupOrder",
+            "value": "0"
+          }
+        ],
+        "folder": "Demo Queries"
+      }
+    ],
+    "relationships": [
+      {
+        "name": "fb74ea5f-81cc-435b-abed-35437841acde",
+        "fromColumn": "Transaction Date",
+        "fromTable": "Kishore Cycles Sales",
+        "toColumn": "Date",
+        "toTable": "Kishore Cycles Calendar"
+      },
+      {
+        "name": "97f775d4-82eb-45c3-ad8a-e7ba25ab20fe",
+        "fromColumn": "Age Group Key",
+        "fromTable": "Kishore Cycles Sales",
+        "toColumn": "Age Group Key",
+        "toTable": "Kishore Cycles Age Group"
+      },
+      {
+        "name": "ae5cc04a-bdab-44e4-93a0-dfd37539c281",
+        "fromColumn": "Customer Gender Key",
+        "fromTable": "Kishore Cycles Sales",
+        "toColumn": "Gender Key",
+        "toTable": "Kishore Cycles Gender"
+      },
+      {
+        "name": "c15c19d2-a2cd-4113-95f0-f92825159795",
+        "fromColumn": "Region Key",
+        "fromTable": "Kishore Cycles Sales",
+        "toColumn": "Sales Territory Key",
+        "toTable": "Kishore Cycles Regions"
+      },
+      {
+        "name": "f5bcde29-3909-4962-a48a-49c54dc2357f",
+        "fromColumn": "Product Key",
+        "fromTable": "Kishore Cycles Sales",
+        "toColumn": "Product Key",
+        "toTable": "Kishore Cycles Products"
+      },
+      {
+        "name": "7de4977e-4ea3-4e9d-93a5-8f8f90b67ce0",
+        "fromColumn": "Product Subcategory Key",
+        "fromTable": "Kishore Cycles Products",
+        "toColumn": "Product Subcategory Key",
+        "toTable": "Kishore Cycles Product Subcategories"
+      },
+      {
+        "name": "bd8c437e-f2cf-48d2-af41-ad62ce27db98",
+        "fromColumn": "Product Category Key",
+        "fromTable": "Kishore Cycles Product Subcategories",
+        "toColumn": "Product Category Key",
+        "toTable": "Kishore Cycles Product Categories"
+      },
+      {
+        "name": "72e9c492-273c-438d-a98b-9f43f9363a65",
+        "fromColumn": "Stock Date",
+        "fromTable": "Kishore Cycles Sales",
+        "isActive": false,
+        "toColumn": "Date",
+        "toTable": "Kishore Cycles Calendar"
+      }
+    ],
+    "roles": [
+      {
+        "name": "Static RLS UK",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "ff237e16ddd84d91921d7a534f59c76d"
+          }
+        ],
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "Kishore Cycles Regions",
+            "filterExpression": "[Country] = \"United Kingdom\""
+          }
+        ]
+      },
+      {
+        "name": "Dynamic RLS By UN",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "2a72767cbd884c1caf9532eb81498f6f"
+          }
+        ],
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "Kishore Cycles Regions",
+            "filterExpression": "[Territory Manager] = USERNAME()"
+          }
+        ]
+      },
+      {
+        "name": "Dynamic RLS By UPN",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "b38cfaebedc845ee9d76f015bc47b35b"
+          }
+        ],
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "Kishore Cycles Regions",
+            "filterExpression": "[Email Address] = USERPRINCIPALNAME()"
+          }
+        ]
+      }
+    ],
+    "sourceQueryCulture": "en-GB",
+    "tables": [
+      {
+        "name": "DateTableTemplate_1022eccb-8a59-4fd2-8ec8-0adba1b494fa",
+        "annotations": [
+          {
+            "name": "__PBI_TemplateDateTable",
+            "value": "true"
+          },
+          {
+            "name": "DefaultItem",
+            "value": "DateHierarchy"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataCategory": "PaddedDateTableDates",
+            "dataType": "dateTime",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "isNameInferred": true,
+            "lineageTag": "5a1034f3-cafe-49c6-99ef-7d1ac03ac1a2",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "Year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Year"
+              }
+            ],
+            "dataCategory": "Years",
+            "dataType": "int64",
+            "expression": "YEAR([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "95861b4f-afd5-4941-9367-013d866f65c4",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "MonthNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "MonthNumber"
+              }
+            ],
+            "dataCategory": "MonthOfYear",
+            "dataType": "int64",
+            "expression": "MONTH([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "10721c43-ebe0-4af8-9c1c-2cb7ae17536c",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Month",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Month"
+              }
+            ],
+            "dataCategory": "Months",
+            "dataType": "string",
+            "expression": "FORMAT([Date], \"MMMM\")",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "69967ec9-f708-4193-aefa-a2b5a1c7c643",
+            "sortByColumn": "MonthNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "QuarterNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "QuarterNumber"
+              }
+            ],
+            "dataCategory": "QuarterOfYear",
+            "dataType": "int64",
+            "expression": "INT(([MonthNo] + 2) / 3)",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "f8610401-51e3-4d94-8726-0170837748cf",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Quarter",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Quarter"
+              }
+            ],
+            "dataCategory": "Quarters",
+            "dataType": "string",
+            "expression": "\"Qtr \" & [QuarterNo]",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "a8505f2c-0960-4b08-ae69-abd8c90853c5",
+            "sortByColumn": "QuarterNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Day",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Day"
+              }
+            ],
+            "dataCategory": "DayOfMonth",
+            "dataType": "int64",
+            "expression": "DAY([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "e7704724-0183-4572-9345-cb4ad264c7bc",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Date Hierarchy",
+            "annotations": [
+              {
+                "name": "TemplateId",
+                "value": "DateHierarchy"
+              }
+            ],
+            "levels": [
+              {
+                "name": "Year",
+                "column": "Year",
+                "lineageTag": "cd9a0046-5e84-4c8a-a77c-fc8ee4d6ad51",
+                "ordinal": 0
+              },
+              {
+                "name": "Quarter",
+                "column": "Quarter",
+                "lineageTag": "9769e1aa-f60f-4323-be46-77b662c1157c",
+                "ordinal": 1
+              },
+              {
+                "name": "Month",
+                "column": "Month",
+                "lineageTag": "1a23dd98-3c06-404d-9511-55aab211809d",
+                "ordinal": 2
+              },
+              {
+                "name": "Day",
+                "column": "Day",
+                "lineageTag": "ab49272e-be76-44df-b5f3-2e542f034a15",
+                "ordinal": 3
+              }
+            ],
+            "lineageTag": "1b6b77cc-167c-4abd-9e7e-20e0bfc22f3d"
+          }
+        ],
+        "isHidden": true,
+        "isPrivate": true,
+        "lineageTag": "555e2d42-0d7a-40ee-9b54-8d652225b2d8",
+        "partitions": [
+          {
+            "name": "DateTableTemplate_1022eccb-8a59-4fd2-8ec8-0adba1b494fa-d5fe4522-f4ff-4399-85ad-2d44d9c9fd0c",
+            "mode": "import",
+            "source": {
+              "expression": "Calendar(Date(2015,1,1), Date(2015,1,1))",
+              "type": "calculated"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Kishore Cycles Sales",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "__PBI_SemanticLinks",
+            "value": "[{\"LinkTarget\":{\"TableName\":\"Kishore Cycles Calendar\",\"TableItemName\":\"Date (clusters)\",\"ObjectType\":4},\"LinkType\":\"UsedInGroup\"}]"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Transaction Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "beb71d03-b399-4b9f-bb6b-f08464e266ee",
+            "sourceColumn": "Transaction Date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Stock Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isDateTimeCustom\":true}"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "mmmm yyyy",
+            "lineageTag": "b7a3b41d-6607-4712-a923-d9566b4a81e3",
+            "sourceColumn": "Stock Date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Invoice ID",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "c4c81342-05d2-4ba5-bffa-feacdc7b22ed",
+            "sourceColumn": "Invoice ID",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Age Group Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "d5aa9c76-202a-4bcd-89b0-396dc7a719eb",
+            "sourceColumn": "Age Group Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Customer Gender Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "789d8216-141f-43a1-9551-6b525cc6802d",
+            "sourceColumn": "Customer Gender Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Region Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "dd6e00ac-477e-4fbe-ae4b-217abb519eba",
+            "sourceColumn": "Region Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Product Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "3eadfa36-a178-4147-98fc-a8ef8fbe99e9",
+            "sourceColumn": "Product Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Quantity Sold",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "__PBI_SemanticLinks",
+                "value": "[{\"LinkTarget\":{\"TableName\":\"Kishore Cycles Calendar\",\"TableItemName\":\"Date (clusters)\",\"ObjectType\":4},\"LinkType\":\"UsedInGroup\"}]"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "a91228df-503e-4dab-8893-19c7dea02577",
+            "sourceColumn": "Quantity Sold",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "855bffbb-b322-4a67-b29a-40ee23b7f7e2",
+        "partitions": [
+          {
+            "name": "Kishore Cycles Sales-de9b40ff-cb6a-465c-9dd6-50cf3adc9262",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\Maven Cycles Sales.csv\"),[Delimiter=\",\", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Transaction_Date\", type date}, {\"Stock_ Date\", type date}, {\"Invoice_ID\", type text}, {\"Age_Group_Key\", Int64.Type}, {\"Customer_Gender_Key\", Int64.Type}, {\"Region_Key\", Int64.Type}, {\"Product_Key\", Int64.Type}, {\"Quantity_Sold\", Int64.Type}}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"Transaction_Date\", \"Transaction Date\"}, {\"Stock_ Date\", \"Stock Date\"}, {\"Invoice_ID\", \"Invoice ID\"}, {\"Age_Group_Key\", \"Age Group Key\"}, {\"Customer_Gender_Key\", \"Customer Gender Key\"}, {\"Region_Key\", \"Region Key\"}, {\"Product_Key\", \"Product Key\"}, {\"Quantity_Sold\", \"Quantity Sold\"}}),",
+                "    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Renamed Columns\",{{\"Transaction Date\", type datetime}}),",
+                "    #\"Filtered Rows\" = Table.SelectRows(#\"Changed Type1\", each true),",
+                "    #\"Filtered Rows1\" = Table.SelectRows(#\"Filtered Rows\", each [Transaction Date] >= RangeStart and [Transaction Date] < RangeEnd)",
+                "in",
+                "    #\"Filtered Rows1\""
+              ],
+              "type": "m"
+            }
+          }
+        ],
+        "refreshPolicy": {
+          "incrementalGranularity": "month",
+          "incrementalPeriods": 2,
+          "policyType": "basic",
+          "rollingWindowGranularity": "year",
+          "rollingWindowPeriods": 10,
+          "sourceExpression": [
+            "let",
+            "    Source = Csv.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\Maven Cycles Sales.csv\"),[Delimiter=\",\", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+            "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+            "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Transaction_Date\", type date}, {\"Stock_ Date\", type date}, {\"Invoice_ID\", type text}, {\"Age_Group_Key\", Int64.Type}, {\"Customer_Gender_Key\", Int64.Type}, {\"Region_Key\", Int64.Type}, {\"Product_Key\", Int64.Type}, {\"Quantity_Sold\", Int64.Type}}),",
+            "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"Transaction_Date\", \"Transaction Date\"}, {\"Stock_ Date\", \"Stock Date\"}, {\"Invoice_ID\", \"Invoice ID\"}, {\"Age_Group_Key\", \"Age Group Key\"}, {\"Customer_Gender_Key\", \"Customer Gender Key\"}, {\"Region_Key\", \"Region Key\"}, {\"Product_Key\", \"Product Key\"}, {\"Quantity_Sold\", \"Quantity Sold\"}}),",
+            "    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Renamed Columns\",{{\"Transaction Date\", type datetime}}),",
+            "    #\"Filtered Rows\" = Table.SelectRows(#\"Changed Type1\", each true),",
+            "    #\"Filtered Rows1\" = Table.SelectRows(#\"Filtered Rows\", each [Transaction Date] >= RangeStart and [Transaction Date] < RangeEnd)",
+            "in",
+            "    #\"Filtered Rows1\""
+          ]
+        }
+      },
+      {
+        "name": "Kishore Cycles Products",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Product Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "77b1faab-58db-4880-8ce7-965f8336a45e",
+            "sourceColumn": "Product Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Product Subcategory Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "3ef951ea-4c22-432c-8c0b-3ce4837fa655",
+            "sourceColumn": "Product Subcategory Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Product New",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "dbfa3eec-7f1c-4d97-bf65-9f83de24eabe",
+            "sourceColumn": "Product New",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Unit Cost",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-GB\"}"
+              }
+            ],
+            "dataType": "decimal",
+            "formatString": "\"£\"#,0.###############;-\"£\"#,0.###############;\"£\"#,0.###############",
+            "lineageTag": "70ab1af8-a4ec-4208-b19e-939681b5eccd",
+            "sourceColumn": "Unit Cost",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Unit Price",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-GB\"}"
+              }
+            ],
+            "dataType": "decimal",
+            "formatString": "\"£\"#,0.###############;-\"£\"#,0.###############;\"£\"#,0.###############",
+            "lineageTag": "fa07fa86-28c2-4939-9893-014053ad3281",
+            "sourceColumn": "Unit Price",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Price Range",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d70bc389-9cfa-44f1-9706-2a7178f0b4e1",
+            "sourceColumn": "Price Range",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "f2fed9b0-7e83-4671-bf1c-c95aba799b22",
+        "partitions": [
+          {
+            "name": "Kishore Cycles Products-1100ef1c-b969-46bc-8ba6-acd20e41de5a",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\mvncycprod.csv\"),[Delimiter=\",\", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(Source,{{\"Column1\", type text}, {\"Column2\", type text}, {\"Column3\", type text}, {\"Column4\", type text}, {\"Column5\", type text}}),",
+                "    #\"Removed Top Rows\" = Table.Skip(#\"Changed Type\",6),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(#\"Removed Top Rows\", [PromoteAllScalars=true]),",
+                "    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ProductKey\", Int64.Type}, {\"ProductSubcategoryKey\", Int64.Type}, {\"Product_New\", type text}, {\"Unit_Cost\", type number}, {\"Unit_Price\", type number}}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type1\",{{\"ProductKey\", \"Product Key\"}, {\"ProductSubcategoryKey\", \"Product Subcategory Key\"}, {\"Product_New\", \"Product New\"}, {\"Unit_Cost\", \"Unit Cost\"}, {\"Unit_Price\", \"Unit Price\"}}),",
+                "    #\"Changed Type2\" = Table.TransformColumnTypes(#\"Renamed Columns\",{{\"Unit Cost\", Currency.Type}, {\"Unit Price\", Currency.Type}}),",
+                "    #\"Added Conditional Column\" = Table.AddColumn(#\"Changed Type2\", \"Price Range\", each if [Unit Price] <= 100 then \"Low\" else if [Unit Price] < 1000 then \"Mid\" else if [Unit Price] >= 1000 then \"High\" else \"Unclassified \")",
+                "in",
+                "    #\"Added Conditional Column\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Kishore Cycles Calendar",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              },
+              {
+                "name": "__PBI_SemanticLinks",
+                "value": "[{\"LinkTarget\":{\"TableName\":\"Kishore Cycles Calendar\",\"TableItemName\":\"Date (clusters)\",\"ObjectType\":4},\"LinkType\":\"UsedInGroup\"}]"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "isKey": true,
+            "lineageTag": "1d3d4a94-ebb7-4667-8942-acb4596e77c2",
+            "sourceColumn": "Date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isDateTimeCustom\":true}"
+              }
+            ],
+            "dataType": "dateTime",
+            "expression": [
+              "",
+              "STARTOFYEAR(",
+              "    'Kishore Cycles Calendar'[Date]",
+              ")"
+            ],
+            "formatString": "yyyy",
+            "isDataTypeInferred": true,
+            "lineageTag": "b341866b-cc3a-4795-bbd1-9e4042095130",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Quarter",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isDateTimeCustom\":true}"
+              }
+            ],
+            "dataType": "dateTime",
+            "expression": [
+              "",
+              "STARTOFQUARTER(",
+              "    'Kishore Cycles Calendar'[Date]",
+              ")"
+            ],
+            "formatString": "mmmm yyyy",
+            "isDataTypeInferred": true,
+            "lineageTag": "735620ba-52a5-4040-901f-678cd1d66061",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Month",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isDateTimeCustom\":true}"
+              }
+            ],
+            "dataType": "dateTime",
+            "expression": [
+              "",
+              "STARTOFMONTH(",
+              "    'Kishore Cycles Calendar'[Date]",
+              ")"
+            ],
+            "formatString": "mmmm yyyy",
+            "isDataTypeInferred": true,
+            "lineageTag": "6554ed3f-e14e-4d84-a9b3-c853b25a77d2",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Month No",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "expression": [
+              "",
+              "MONTH(",
+              "    'Kishore Cycles Calendar'[Date]",
+              ")"
+            ],
+            "formatString": "0",
+            "isDataTypeInferred": true,
+            "lineageTag": "ab5b7c53-3195-41ac-ba73-eb81b532522f",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Month Name",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": [
+              "",
+              "FORMAT(",
+              "    DATE(",
+              "        1,",
+              "        'Kishore Cycles Calendar'[Month No],",
+              "        1",
+              "    ),",
+              "    \"mmmm\"",
+              " )"
+            ],
+            "isDataTypeInferred": true,
+            "lineageTag": "5b23a606-b49c-4075-b749-81f80b8220d6",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Date (clusters)",
+            "annotations": [
+              {
+                "name": "GroupingDesignState",
+                "value": "{\"Version\":0,\"Sources\":[{\"Name\":\"k1\",\"Entity\":\"Kishore Cycles Calendar\"}],\"GroupedColumns\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k1\"}},\"Property\":\"Date\"}}],\"PartitionTable\":{\"Definition\":{\"TableDefinition\":{\"Version\":2,\"From\":[{\"Name\":\"k\",\"Entity\":\"Kishore Cycles Sales\"},{\"Name\":\"_\",\"Entity\":\"_Measure\"},{\"Name\":\"k1\",\"Entity\":\"Kishore Cycles Calendar\"}],\"Where\":[],\"OrderBy\":[],\"Select\":[{\"Column\":{\"Expression\":{\"TransformTableRef\":{\"Source\":\"output0\"}},\"Property\":\"Kishore Cycles Calendar.Date\"},\"Name\":\"Kishore Cycles Calendar.Date\"},{\"Column\":{\"Expression\":{\"TransformTableRef\":{\"Source\":\"output0\"}},\"Property\":\"clusterId\"},\"Name\":\"clusterId\"}],\"GroupBy\":[],\"Transform\":[{\"Name\":\"KMeansClustering\",\"Algorithm\":\"KMeansClustering\",\"Input\":{\"Parameters\":[{\"Literal\":{\"Value\":\"-1L\"},\"Name\":\"NumberOfClusters\"}],\"Table\":{\"Name\":\"input0\",\"Columns\":[{\"Role\":\"Attribute\",\"Expression\":{\"Aggregation\":{\"Function\":0,\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Quantity Sold\"}}},\"Name\":\"Sum(Kishore Cycles Sales.Quantity Sold)\"}},{\"Role\":\"Attribute\",\"Expression\":{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"_\"}},\"Property\":\"Total Cost\"},\"Name\":\"_Measure.Total Cost\"}},{\"Role\":\"Item\",\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k1\"}},\"Property\":\"Date\"},\"Name\":\"Kishore Cycles Calendar.Date\"}}]}},\"Output\":{\"Table\":{\"Name\":\"output0\",\"Columns\":[{\"Expression\":{\"Column\":{\"Expression\":{\"TransformTableRef\":{\"Source\":\"input0\"}},\"Property\":\"Kishore Cycles Calendar.Date\"},\"Name\":\"Kishore Cycles Calendar.Date\"}},{\"Role\":\"Series\",\"Expression\":{\"TransformOutputRoleRef\":{\"Role\":\"ClusterId\"},\"Name\":\"clusterId\"}}]}}}]},\"ItemIdColumns\":[\"Kishore Cycles Calendar.Date\"],\"PartitionIdColumn\":\"clusterId\",\"Partitions\":[{\"PartitionIds\":[{\"Literal\":{\"Value\":\"null\"}}]}],\"DefaultPartitionPrefix\":\"Cluster\"},\"Result\":{\"TableName\":\"ClusterMappingTable\",\"PartitionIdColumn\":\"ClusterId\",\"ItemIdMappings\":[[{\"PartitionTableColumn\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Entity\":\"ClusterMappingTable\"}},\"Property\":\"Date\"}},\"SourceTableColumn\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Entity\":\"Kishore Cycles Calendar\"}},\"Property\":\"Date\"}}}]]}}}"
+              },
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "description": "Clusters for Date",
+            "expression": [
+              "VAR __ClusterValue = ",
+              "\tLOOKUPVALUE(",
+              "\t\t'ClusterMappingTable'[ClusterId],",
+              "\t\t'ClusterMappingTable'[Date],",
+              "\t\t'Kishore Cycles Calendar'[Date]",
+              "\t)",
+              "",
+              "RETURN",
+              "\tSWITCH(",
+              "\t\t__ClusterValue,",
+              "\t\tBLANK(),",
+              "\t\tBLANK(),",
+              "\t\tCONCATENATE(\"Cluster\", __ClusterValue)",
+              "\t)"
+            ],
+            "extendedProperties": [
+              {
+                "name": "GroupingMetadata",
+                "type": "json",
+                "value": {
+                  "groupedColumns": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Kishore Cycles Calendar"
+                          }
+                        },
+                        "Property": "Date"
+                      }
+                    }
+                  ],
+                  "version": 0
+                }
+              }
+            ],
+            "isDataTypeInferred": true,
+            "lineageTag": "7fadb8fe-694c-4f09-86e2-dcc808961cd4",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "dataCategory": "Time",
+        "lineageTag": "7fa1055c-a352-492b-9ea4-ec5fe4d0a045",
+        "partitions": [
+          {
+            "name": "Kishore Cycles Calendar-c23f5450-d1bb-4189-b24b-2be15d690c68",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\Maven Cycles Calendar.csv\"),[Delimiter=\",\", Columns=1, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(Source,{{\"Column1\", type text}}),",
+                "    #\"Inserted Text Before Delimiter\" = Table.AddColumn(#\"Changed Type\", \"Text Before Delimiter\", each Text.BeforeDelimiter([Column1], \"T\"), type text),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(#\"Inserted Text Before Delimiter\", [PromoteAllScalars=true]),",
+                "    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Date_and_Time\", type text}, {\"Date_and_\", type date}}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type1\",{{\"Date_and_\", \"Date\"}}),",
+                "    #\"Removed Columns\" = Table.RemoveColumns(#\"Renamed Columns\",{\"Date_and_Time\"})",
+                "in",
+                "    #\"Removed Columns\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Kishore Cycles Age Group",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Age Group Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "a680b793-3169-41d0-94b4-f8a2379d70ee",
+            "sourceColumn": "Age Group Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Age Group",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "b0159b62-c9d6-41ee-a22c-fd029220a603",
+            "sourceColumn": "Age Group",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "5d05a781-0aea-419a-a21a-c99efe9adfa0",
+        "measures": [
+          {
+            "name": "Mid Price Range Total Revenue",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-GB\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "SUMX(",
+              "    FILTER(",
+              "        'Kishore Cycles Products',",
+              "        'Kishore Cycles Products'[Price Range] = \"Mid\"",
+              "    ),",
+              "    [Total Revenue]",
+              ")"
+            ],
+            "formatString": "\"£\"#,0.###############;-\"£\"#,0.###############;\"£\"#,0.###############",
+            "lineageTag": "6890130d-5822-42b3-8ad6-b4c58b47e90b"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Kishore Cycles Age Group-f94236b3-b8b9-438d-a23b-4ccb34c4cacb",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\Maven Cycles Age Group.csv\"),[Delimiter=\",\", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"AgeGroupKey\", Int64.Type}, {\"AgeGroup\", type text}}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"AgeGroupKey\", \"Age Group Key\"}, {\"AgeGroup\", \"Age Group\"}})",
+                "in",
+                "    #\"Renamed Columns\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Kishore Cycles Gender",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Gender Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "ce4c8a4c-2601-49e7-a93f-9fe76992a289",
+            "sourceColumn": "Gender Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Customer Gender",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "c9808a1e-6b2a-461c-9bfa-7b92ff4f0795",
+            "sourceColumn": "Customer Gender",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "c01eb6ba-b8ae-4ac5-aece-8c859ae7fb0f",
+        "partitions": [
+          {
+            "name": "Kishore Cycles Gender-0650f152-381a-42d7-835c-e94ecc366d3d",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\Maven Cycles Gender.csv\"),[Delimiter=\",\", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"GenderKey\", Int64.Type}, {\"CustomerGender\", type text}}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"GenderKey\", \"Gender Key\"}, {\"CustomerGender\", \"Customer Gender\"}})",
+                "in",
+                "    #\"Renamed Columns\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Kishore Cycles Product Categories",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Product Category Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "acc848a5-6f02-4b6c-851d-471b6d03c0f7",
+            "sourceColumn": "Product Category Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Product Category",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "59ac4709-bca7-47eb-97ee-019ae50daf3b",
+            "sourceColumn": "Product Category",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "34227b63-fdd6-4870-8bcb-8d6edb852aac",
+        "partitions": [
+          {
+            "name": "Kishore Cycles Product Categories-8c00b8a7-a8a9-4eec-8315-6021c0d5a896",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\Maven Cycles Product Categories.csv\"),[Delimiter=\",\", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ProductCategoryKey\", Int64.Type}, {\"ProductCategory\", type text}}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"ProductCategoryKey\", \"Product Category Key\"}, {\"ProductCategory\", \"Product Category\"}})",
+                "in",
+                "    #\"Renamed Columns\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Kishore Cycles Product Subcategories",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Product Subcategory Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "497c5152-3ab4-4d2a-8e57-65b3b2f983c0",
+            "sourceColumn": "Product Subcategory Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Sub Category",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "55ded796-2092-400b-a882-f35c14af2086",
+            "sourceColumn": "Sub Category",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Product Category Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "40c1ebf6-e826-46c8-8b9a-f998f9090268",
+            "sourceColumn": "Product Category Key",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "d0cd9742-fe75-4111-b531-5bf2a03c1b2f",
+        "partitions": [
+          {
+            "name": "Kishore Cycles Product Subcategories-4883f80d-b4a0-47dc-8f11-ac7aab6a80c1",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\Maven Cycles Product Subcategories.csv\"),[Delimiter=\",\", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ProductSubcategoryKey\", Int64.Type}, {\"SubCategory\", type text}, {\"ProductCategoryKey\", Int64.Type}}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"ProductSubcategoryKey\", \"Product Subcategory Key\"}, {\"SubCategory\", \"Sub Category\"}, {\"ProductCategoryKey\", \"Product Category Key\"}})",
+                "in",
+                "    #\"Renamed Columns\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Kishore Cycles Regions",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Sales Territory Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "b29db9d4-3de2-409a-a0bb-23799c2b6441",
+            "sourceColumn": "Sales Territory Key",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Regions",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "__PBI_SemanticLinks",
+                "value": "[{\"LinkTarget\":{\"TableName\":\"Kishore Cycles Regions\",\"TableItemName\":\"Region\",\"ObjectType\":4},\"LinkType\":\"UsedInGroup\"}]"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "SortByColumn"
+              }
+            ],
+            "dataCategory": "County",
+            "dataType": "string",
+            "lineageTag": "7db5f4a1-2e71-499c-b461-99e5d9da988b",
+            "sourceColumn": "Regions",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Country",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "cd0cfefc-c1de-4049-b4b5-12605957a060",
+            "sourceColumn": "Country",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Continent",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "bdfa2a66-bc8a-4220-9af0-b8e67b4c9b46",
+            "sourceColumn": "Continent",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Territory Manager",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "73c19b13-ed2c-4ea8-9b8a-e7e1e009cdf4",
+            "sourceColumn": "Territory Manager",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Email Address",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "54444e2c-a492-4de7-8f31-97cdab2843a3",
+            "sourceColumn": "Email Address",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Region",
+            "annotations": [
+              {
+                "name": "GroupingDesignState",
+                "value": "{\"Version\":0,\"Sources\":[{\"Name\":\"k\",\"Entity\":\"Kishore Cycles Regions\"}],\"GroupedColumns\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Regions\"}}],\"GroupItems\":[{\"DisplayName\":\"(Blank)\",\"BlankDefaultPlaceholder\":true},{\"DisplayName\":\"United States\",\"Expression\":{\"In\":{\"Expressions\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Regions\"}}],\"Values\":[[{\"Literal\":{\"Value\":\"'Central'\"}}],[{\"Literal\":{\"Value\":\"'Northeast'\"}}],[{\"Literal\":{\"Value\":\"'Northwest'\"}}],[{\"Literal\":{\"Value\":\"'Southeast'\"}}],[{\"Literal\":{\"Value\":\"'Southwest'\"}}]]}}}]}"
+              },
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": [
+              "SWITCH(",
+              "\tTRUE,",
+              "\tISBLANK('Kishore Cycles Regions'[Regions]),",
+              "\t\"(Blank)\",",
+              "\t'Kishore Cycles Regions'[Regions] IN {\"Central\",",
+              "\t\t\"Northeast\",",
+              "\t\t\"Northwest\",",
+              "\t\t\"Southeast\",",
+              "\t\t\"Southwest\"},",
+              "\t\"United States\",",
+              "\t'Kishore Cycles Regions'[Regions]",
+              ")"
+            ],
+            "extendedProperties": [
+              {
+                "name": "GroupingMetadata",
+                "type": "json",
+                "value": {
+                  "groupedColumns": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Kishore Cycles Regions"
+                          }
+                        },
+                        "Property": "Regions"
+                      }
+                    }
+                  ],
+                  "version": 0
+                }
+              }
+            ],
+            "isDataTypeInferred": true,
+            "lineageTag": "ac68c8fc-f11f-48bc-ae20-2317ce4b0731",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "lineageTag": "acc6ca12-1924-407c-a7c8-5940969a225f",
+        "partitions": [
+          {
+            "name": "Kishore Cycles Regions-58427e6a-c724-40a4-8aea-3ca172904b62",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\BI Sources\\PL-300 Maveen cycles\\Raw Data Files\\Maven Cycles Regions.csv\"),[Delimiter=\",\", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"SalesTerritoryKey\", Int64.Type}, {\"Region\", type text}, {\"Country\", type text}, {\"Continent\", type text}, {\"TerritoryManager\", type text}, {\"EmailAddress\", type text}}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"SalesTerritoryKey\", \"Sales Territory Key\"}, {\"TerritoryManager\", \"Territory Manager\"}, {\"EmailAddress\", \"Email Address\"}, {\"Region\", \"Regions\"}})",
+                "in",
+                "    #\"Renamed Columns\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "_Measure",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          },
+          {
+            "name": "__PBI_SemanticLinks",
+            "value": "[{\"LinkTarget\":{\"TableName\":\"Kishore Cycles Calendar\",\"TableItemName\":\"Date (clusters)\",\"ObjectType\":4},\"LinkType\":\"UsedInGroup\"}]"
+          }
+        ],
+        "changedProperties": [
+          {
+            "property": "Name"
+          }
+        ],
+        "lineageTag": "dfe06b0c-09e9-41ac-a831-c795fbf1d8e9",
+        "measures": [
+          {
+            "name": "Profit",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-GB\"}"
+              }
+            ],
+            "expression": "[Total Revenue] - [Total Cost]",
+            "formatString": "\"£\"#,0.###############;-\"£\"#,0.###############;\"£\"#,0.###############",
+            "lineageTag": "a0a4b7ec-2e71-4415-9eee-a4e520fd112e"
+          },
+          {
+            "name": "Profit Margin",
+            "expression": [
+              "",
+              "DIVIDE(",
+              "    [Profit],",
+              "    [Total Revenue],",
+              "    \"N/A\"",
+              ")"
+            ],
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "29cfede0-b486-4b76-a7b7-992460659a44"
+          },
+          {
+            "name": "Quantity Sold YTD",
+            "changedProperties": [
+              {
+                "property": "FormatString"
+              }
+            ],
+            "expression": [
+              "",
+              "TOTALYTD(",
+              "\tSUM('Kishore Cycles Sales'[Quantity Sold]),",
+              "\t'Kishore Cycles Calendar'[Date]",
+              ")"
+            ],
+            "extendedProperties": [
+              {
+                "name": "MeasureTemplate",
+                "type": "json",
+                "value": {
+                  "daxTemplateName": "YearToDate",
+                  "version": 0
+                }
+              }
+            ],
+            "formatString": "0",
+            "lineageTag": "44de3c05-9f14-4e40-a7ca-219b4f843cf5"
+          },
+          {
+            "name": "Quantity Sold",
+            "expression": [
+              "",
+              "SUM(",
+              "    'Kishore Cycles Sales'[Quantity Sold]",
+              ")"
+            ],
+            "formatString": "0",
+            "lineageTag": "c07f74fb-4aa0-4feb-a809-db973f41b97d"
+          },
+          {
+            "name": "Total Cost",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-GB\"}"
+              },
+              {
+                "name": "__PBI_SemanticLinks",
+                "value": "[{\"LinkTarget\":{\"TableName\":\"Kishore Cycles Calendar\",\"TableItemName\":\"Date (clusters)\",\"ObjectType\":4},\"LinkType\":\"UsedInGroup\"}]"
+              }
+            ],
+            "expression": [
+              "",
+              "SUMX(",
+              "    'Kishore Cycles Sales',",
+              "    'Kishore Cycles Sales'[Quantity Sold] *",
+              "    RELATED(",
+              "        'Kishore Cycles Products'[Unit Cost]",
+              "    )",
+              ")"
+            ],
+            "formatString": "\"£\"#,0.###############;-\"£\"#,0.###############;\"£\"#,0.###############",
+            "lineageTag": "4173068c-ce58-4100-82d6-ce9bda9518cc"
+          },
+          {
+            "name": "Total Revenue",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-GB\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "SUMX(",
+              "    'Kishore Cycles Sales',",
+              "    'Kishore Cycles Sales'[Quantity Sold] *",
+              "    RELATED(",
+              "        'Kishore Cycles Products'[Unit Price]",
+              "    )",
+              ")"
+            ],
+            "formatString": "\"£\"#,0;-\"£\"#,0;\"£\"#,0",
+            "lineageTag": "aa57c489-24aa-40da-9468-d8d97a824805"
+          },
+          {
+            "name": "Total Orders",
+            "expression": [
+              "",
+              "DISTINCTCOUNT(",
+              "    'Kishore Cycles Sales'[Invoice ID]",
+              ")"
+            ],
+            "formatString": "#,0",
+            "lineageTag": "fd82fcd6-b733-4a71-9452-38c89ecfe05c"
+          },
+          {
+            "name": "Australian Orders",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Orders],",
+              "    'Kishore Cycles Regions'[Country] = \"Australia\"",
+              ")"
+            ],
+            "formatString": "0",
+            "lineageTag": "07ffdc6d-dc06-4c35-a38b-6b33d68e5d44"
+          },
+          {
+            "name": "Quantity Sold (stock date)",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Quantity Sold],",
+              "    USERELATIONSHIP(",
+              "        'Kishore Cycles Sales'[Stock Date],",
+              "        'Kishore Cycles Calendar'[Date]",
+              "    )",
+              ")"
+            ],
+            "formatString": "0",
+            "lineageTag": "b14e02ff-ec5e-4193-97b5-045316bab870"
+          },
+          {
+            "name": "ALL PROFIT",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-GB\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Profit],",
+              "    ALL(",
+              "        'Kishore Cycles Sales'",
+              "    )",
+              ")"
+            ],
+            "formatString": "\"£\"#,0.###############;-\"£\"#,0.###############;\"£\"#,0.###############",
+            "lineageTag": "8aac1897-2041-493f-9092-58de2354caec"
+          },
+          {
+            "name": "% of profit",
+            "expression": [
+              "",
+              "DIVIDE(",
+              "    [Profit],",
+              "    [ALL PROFIT],",
+              "    0",
+              ")"
+            ],
+            "formatString": "0.0%;-0.0%;0.0%",
+            "lineageTag": "ec125a1c-55df-4d34-b1f2-476418e2b644"
+          },
+          {
+            "name": "Last Month revenue",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-GB\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Revenue],",
+              "    DATEADD(",
+              "        'Kishore Cycles Calendar'[Date],",
+              "        -1,",
+              "        MONTH",
+              "    )",
+              ")"
+            ],
+            "formatString": "\"£\"#,0.###############;-\"£\"#,0.###############;\"£\"#,0.###############",
+            "lineageTag": "c28b0290-5e83-4800-a0c3-0d2c7d3d6231"
+          },
+          {
+            "name": "Last Month Profit",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-GB\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Profit],",
+              "    DATEADD(",
+              "        'Kishore Cycles Calendar'[Date],",
+              "        -1,",
+              "        MONTH",
+              "    )",
+              ")"
+            ],
+            "formatString": "\"£\"#,0.###############;-\"£\"#,0.###############;\"£\"#,0.###############",
+            "lineageTag": "353a56d5-7e5f-49d4-9c77-810b76831891"
+          },
+          {
+            "name": "Last Month Profit Margin",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Profit Margin],",
+              "    DATEADD(",
+              "        'Kishore Cycles Calendar'[Date],",
+              "        -1,",
+              "        MONTH",
+              "    )",
+              ")"
+            ],
+            "lineageTag": "cf66f53a-1591-4fbd-9448-1f5adf27e445"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "_Measure-e048a719-b6e8-4874-8a57-fa6ffc770949",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i44FAA==\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(Source,{{\"Column1\", type text}}),",
+                "    #\"Removed Columns\" = Table.RemoveColumns(#\"Changed Type\",{\"Column1\"})",
+                "in",
+                "    #\"Removed Columns\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Top 10 Products",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "a345666775f74244ac4ca0f3f853d948"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Product New",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "isNameInferred": true,
+            "lineageTag": "fb8bcb76-7d5f-4609-b159-23871ed7f077",
+            "sourceColumn": "Kishore Cycles Products[Product New]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "Quantity Sold",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "isDataTypeInferred": true,
+            "isNameInferred": true,
+            "lineageTag": "099bca31-748a-45d8-b96d-d583f66f0419",
+            "sourceColumn": "[Quantity Sold]",
+            "summarizeBy": "sum",
+            "type": "calculatedTableColumn"
+          }
+        ],
+        "lineageTag": "334e4a26-932e-4b04-995c-cd3dc4aadd8d",
+        "partitions": [
+          {
+            "name": "Top 10 Products-10ab1002-d530-4997-a165-811db23429c7",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "",
+                "TOPN(",
+                "    10,",
+                "    SUMMARIZE(",
+                "        'Kishore Cycles Products',",
+                "        'Kishore Cycles Products'[Product New],",
+                "        \"Quantity Sold\",",
+                "        [Quantity Sold]",
+                "    ),",
+                "    [Quantity Sold],",
+                "    DESC",
+                ")"
+              ],
+              "type": "calculated"
+            }
+          }
+        ]
+      },
+      {
+        "name": "ClusterMappingTable",
+        "annotations": [
+          {
+            "name": "ClusterMappingTable",
+            "value": "true"
+          },
+          {
+            "name": "__PBI_SemanticLinks",
+            "value": "[{\"LinkTarget\":{\"TableName\":\"Kishore Cycles Calendar\",\"TableItemName\":\"Date (clusters)\",\"ObjectType\":4},\"LinkType\":\"UsedInGroup\"}]"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "__PBI_SemanticLinks",
+                "value": "[{\"LinkTarget\":{\"TableName\":\"Kishore Cycles Calendar\",\"TableItemName\":\"Date (clusters)\",\"ObjectType\":4},\"LinkType\":\"UsedInGroup\"}]"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "isDataTypeInferred": true,
+            "isNameInferred": true,
+            "lineageTag": "3e831473-4df8-4278-9061-f65b60cc1fcc",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "ClusterId",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "__PBI_SemanticLinks",
+                "value": "[{\"LinkTarget\":{\"TableName\":\"Kishore Cycles Calendar\",\"TableItemName\":\"Date (clusters)\",\"ObjectType\":4},\"LinkType\":\"UsedInGroup\"}]"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "isDataTypeInferred": true,
+            "isNameInferred": true,
+            "lineageTag": "c37e463c-707e-4655-a3fc-ebac44e4475e",
+            "sourceColumn": "[ClusterId]",
+            "summarizeBy": "count",
+            "type": "calculatedTableColumn"
+          }
+        ],
+        "isHidden": true,
+        "isPrivate": true,
+        "lineageTag": "2dc6ff00-2a39-4891-878b-5b5b5b62ff6e",
+        "partitions": [
+          {
+            "name": "ClusterMappingTable-fbf39a68-90cf-4938-baf5-9839d0424fee",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "VAR __DS0Core = ",
+                "\tSUMMARIZECOLUMNS(",
+                "\t\t'Kishore Cycles Calendar'[Date],",
+                "\t\t\"SumQuantity_Sold\", CALCULATE(SUM('Kishore Cycles Sales'[Quantity Sold])),",
+                "\t\t\"Total_Cost\", '_Measure'[Total Cost]",
+                "\t)",
+                "",
+                "VAR __DataTransformT0 = ",
+                "\tKMeansClustering(",
+                "\t\tSELECTCOLUMNS(",
+                "\t\t\t__DS0Core,",
+                "\t\t\t\"Date\", 'Kishore Cycles Calendar'[Date],",
+                "\t\t\t\"SumQuantity_Sold\", [SumQuantity_Sold],",
+                "\t\t\t\"Total_Cost\", [Total_Cost]",
+                "\t\t),",
+                "\t\t{(\"[SumQuantity_Sold]\", \"Attribute\"),",
+                "\t\t\t(\"[Total_Cost]\", \"Attribute\"),",
+                "\t\t\t(\"[Date]\", \"Item\")},",
+                "\t\t{(\"[Date]\", BLANK()),",
+                "\t\t\t(\"ClusterId\", \"ClusterId\")},",
+                "\t\t-1",
+                "\t)",
+                "",
+                "RETURN __DataTransformT0"
+              ],
+              "retainDataTillForceCalculate": true,
+              "type": "calculated"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

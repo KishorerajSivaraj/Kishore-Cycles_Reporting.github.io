@@ -1,0 +1,150 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 1682.5414215884784,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1142.3569723026153,
+            "y": 721.65245538486215
+          },
+          "nodeIndex": "Kishore Cycles Sales",
+          "nodeLineageTag": "855bffbb-b322-4a67-b29a-40ee23b7f7e2",
+          "size": {
+            "height": 338.01527403414195,
+            "width": 287.57142857142856
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 627.98437892790162,
+            "y": 472.07119790296048
+          },
+          "nodeIndex": "Kishore Cycles Products",
+          "nodeLineageTag": "f2fed9b0-7e83-4671-bf1c-c95aba799b22",
+          "size": {
+            "height": 140.58794205371453,
+            "width": 250.07142857142856
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 899.77216387703606,
+            "y": 471.89371358076659
+          },
+          "nodeIndex": "Kishore Cycles Calendar",
+          "nodeLineageTag": "7fa1055c-a352-492b-9ea4-ec5fe4d0a045",
+          "size": {
+            "height": 173.57547169811312,
+            "width": 253.07925074724824
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1162.8466450913688,
+            "y": 472.18803001213172
+          },
+          "nodeIndex": "Kishore Cycles Age Group",
+          "nodeLineageTag": "5d05a781-0aea-419a-a21a-c99efe9adfa0",
+          "size": {
+            "height": 136.92857142857144,
+            "width": 263.67883449571957
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1436.2790351141812,
+            "y": 474.64874679096272
+          },
+          "nodeIndex": "Kishore Cycles Gender",
+          "nodeLineageTag": "c01eb6ba-b8ae-4ac5-aece-8c859ae7fb0f",
+          "size": {
+            "height": 135.81126207081707,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 241.78858495641634,
+            "y": 168.78655681013529
+          },
+          "nodeIndex": "Kishore Cycles Product Categories",
+          "nodeLineageTag": "34227b63-fdd6-4870-8bcb-8d6edb852aac",
+          "size": {
+            "height": 124,
+            "width": 327.33333333333337
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 342.16521912748317,
+            "y": 331.63492063492066
+          },
+          "nodeIndex": "Kishore Cycles Product Subcategories",
+          "nodeLineageTag": "d0cd9742-fe75-4111-b531-5bf2a03c1b2f",
+          "size": {
+            "height": 124,
+            "width": 327.33333333333331
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1682.5414215884784,
+            "y": 473.49569980068162
+          },
+          "nodeIndex": "Kishore Cycles Regions",
+          "nodeLineageTag": "acc6ca12-1924-407c-a7c8-5940969a225f",
+          "size": {
+            "height": 134.71428571428555,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 2429.7,
+            "y": 0
+          },
+          "nodeIndex": "_Measure",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2825.9,
+            "y": 0
+          },
+          "nodeIndex": "Top 10 Products",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 53.000000000000028,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
